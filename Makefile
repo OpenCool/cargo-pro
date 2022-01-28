@@ -4,7 +4,7 @@ build:
 
 .PHONY: build-web
 build-web:
-	yarn build
+	yarn build:release
 
 .PHONY: install
 install: build-web

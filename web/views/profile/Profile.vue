@@ -1,8 +1,22 @@
 <script setup>
-import {ref} from 'vue'
+import axios from "@/utils/axios";
+import {ref, computed, reactive, onMounted} from 'vue'
 import {TabGroup, TabList, Tab, TabPanels, TabPanel} from '@headlessui/vue'
 
 let categories = ref(['README', 'Contributors', 'Stats', 'Dependencies'])
+const readme = ref()
+
+
+onMounted(()=>{
+  axios.get("/profile/readme", {}
+  ).then((resp)=>{
+    console.log("resp:", resp);
+    readme.value = resp.data.toString()
+  })
+  .catch((error)=>{
+    console.log(error,'失敗');
+  })
+})
 </script>
 
 <template>
@@ -45,7 +59,7 @@ let categories = ref(['README', 'Contributors', 'Stats', 'Dependencies'])
           <TabPanels class="mt-10">
             <TabPanel>
               <div>
-                README
+                <v-md-preview :text="readme"></v-md-preview>
               </div>
             </TabPanel>
 

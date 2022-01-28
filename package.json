@@ -2,13 +2,17 @@
   "name": "cargo-pro",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
+    "dev": "vite --mode dev",
+    "build:dev": "vite build --mode dev",
+    "build:release": "vite build --mode release",
     "serve": "vite preview"
   },
   "dependencies": {
     "@headlessui/vue": "^1.4.2",
+    "@kangc/v-md-editor": "^2.3.13",
+    "axios": "^0.25.0",
     "daisyui": "^1.23.0",
+    "highlight.js": "^11.4.0",
     "vue": "^3.2.26",
     "vue-router": "^4.0.12",
     "vue3-perfect-scrollbar": "^1.5.5",

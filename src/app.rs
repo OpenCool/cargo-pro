@@ -14,6 +14,7 @@ use cargo_metadata::Metadata;
 use crate::metadata;
 use axum::extract::Path;
 use crate::vision::g6::{MetadataTreeGraph};
+use crate::metadata::readme;
 
 pub struct Server {
     port: u16,
@@ -25,7 +26,8 @@ impl Server {
     }
     pub async fn run(&self) {
         let app = Router::new()
-            .route("/metadata/:graph", get(metadata))
+            .route("/api/profile/readme", get(profile_readme))
+            .route("/api/metadata/:graph", get(metadata))
             .route("/", get(index_handler))
             .fallback(static_handler.into_service());
 
@@ -53,11 +55,17 @@ pub(crate) async fn metadata(Path(graph): Path<String>) -> impl IntoResponse {
             meta.tree()
         }
         _ => {
+            // /metadata/:any
             meta.meta()
         }
     };
 
     return Json(res);
+}
+
+pub(crate) async fn profile_readme() -> String {
+    let profile_readme = readme().unwrap();
+    return profile_readme;
 }
 
 async fn index_handler() -> impl IntoResponse {
