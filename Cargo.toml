@@ -1,0 +1,43 @@
+[package]
+name = "cargo-pro"
+version = "1.0.0"
+edition = "2021"
+authors = [
+    "bingryan <bingryan@outlook.com>"
+]
+readme = "README.md"
+description = "Analyze rust projects like a Pro!"
+license = "MIT"
+keywords = ["cargo", "subcommand"]
+categories = ["development-tools", "development-tools::cargo-plugins"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "cargo-pro"
+
+[dependencies]
+axum = "0.4.3"
+tokio = { version = "1.0", features = ["full"] }
+rusqlite = "0.26.3"
+tower = "0.4.11"
+tracing = "0.1"
+tracing-subscriber = { version="0.3", features = ["env-filter"] }
+tower-http = { version = "0.2.0", features = ["fs", "trace"] }
+rust-embed = "6.3.0"
+mime_guess = "2.0.3"
+
+# metadata
+cargo_metadata = "0.14.1"
+
+# serializing and deserializing
+serde_json = "1.0"
+serde = "1.0"
+
+anyhow = "1.0.52"
+
+#petgraph = "0.6.0"
+
+
+[profile.release.build-override]
+opt-level = 0
