@@ -2,13 +2,14 @@ use axum::{
     body::{boxed, Full},
     handler::Handler,
     Json,
-    http::{header, StatusCode, Uri},
+    http::{header, StatusCode, Uri, Method},
     response::{IntoResponse, Response},
     routing::{get, Router},
 };
 use mime_guess;
 use rust_embed::RustEmbed;
 use std::net::SocketAddr;
+use tower_http::cors::{CorsLayer, any};
 
 use cargo_metadata::Metadata;
 use crate::metadata;
@@ -29,6 +30,13 @@ impl Server {
             .route("/api/profile/readme", get(profile_readme))
             .route("/api/metadata/:graph", get(metadata))
             .route("/", get(index_handler))
+            .layer(
+                CorsLayer::new()
+                    // allow `GET` and `POST` when accessing the resource
+                    .allow_methods(vec![Method::GET, Method::POST])
+                    // allow requests from any origin
+                    .allow_origin(any()),
+            )
             .fallback(static_handler.into_service());
 
         let addr = SocketAddr::from(([127, 0, 0, 1], self.port));
