@@ -19,9 +19,11 @@ pub fn readme() -> Result<String> {
 }
 
 pub fn readme_file() -> Result<String> {
-    let m = Manifest::from_path("Cargo.toml")?;
-    if let Some(OptionalFile::Path(readme)) = m.package.map(|p| p.readme) {
-        return Ok(readme);
+    if fs::metadata("Cargo.toml").is_ok() {
+        let m = Manifest::from_path("Cargo.toml")?;
+        if let Some(OptionalFile::Path(readme)) = m.package.map(|p| p.readme) {
+            return Ok(readme);
+        }
     }
     Ok("README.md".into())
 }
