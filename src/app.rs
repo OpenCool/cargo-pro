@@ -10,12 +10,15 @@ use mime_guess;
 use rust_embed::RustEmbed;
 use std::net::SocketAddr;
 use tower_http::cors::{CorsLayer, any};
+use git2::Repository;
+use std::env;
 
 use cargo_metadata::Metadata;
 use crate::metadata;
 use axum::extract::Path;
 use crate::vision::g6::{MetadataTreeGraph};
 use crate::metadata::readme;
+use crate::git::repository::Repo;
 
 pub struct Server {
     port: u16,
@@ -28,6 +31,7 @@ impl Server {
     pub async fn run(&self) {
         let app = Router::new()
             .route("/api/profile/readme", get(profile_readme))
+            .route("/api/git/logs", get(git_logs))
             .route("/api/metadata/:graph", get(metadata))
             .route("/", get(index_handler))
             .layer(
@@ -75,6 +79,14 @@ pub(crate) async fn profile_readme() -> String {
     let profile_readme = readme().unwrap();
     return profile_readme;
 }
+
+pub(crate) async fn git_logs() -> impl IntoResponse {
+    let current_dir = env::current_dir().unwrap_or(".".into());
+    let dis_repo = Repository::discover(&current_dir).unwrap();
+    let rep = Repo::new(&dis_repo).unwrap();
+    return Json(rep.cache.logs);
+}
+
 
 async fn index_handler() -> impl IntoResponse {
     static_handler("/index.html".parse::<Uri>().unwrap()).await

@@ -8,6 +8,7 @@ mod db;
 mod routes;
 mod metadata;
 mod vision;
+mod git;
 
 #[tokio::main]
 async fn main() {
