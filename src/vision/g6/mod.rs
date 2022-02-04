@@ -1,9 +1,5 @@
-use std::rc::{Rc, Weak};
-use std::cell::RefCell;
 use serde::{Deserialize, Serialize};
-use cargo_metadata::{Metadata, Version, PackageId, Source, Target, Package};
-use cargo_metadata::camino::Utf8PathBuf;
-use std::collections::HashMap;
+use cargo_metadata::{Metadata, PackageId,  Package};
 
 /**
 root-workspace_members-dependency

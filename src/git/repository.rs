@@ -2,7 +2,6 @@ use anyhow::Result;
 use git2::{
     Repository, Signature, Commit,
 };
-use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 // use cached::proc_macro::cached;
 

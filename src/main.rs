@@ -1,6 +1,3 @@
-#[macro_use]
-extern crate anyhow;
-
 use crate::app::Server;
 
 mod app;
